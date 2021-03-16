@@ -1,0 +1,21 @@
+{
+  "name": "mod-bot",
+  "version": "1.0.0",
+  "description": "does something to a person when they mass ping",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "MrNNP",
+  "license": "UNLICENCED",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
