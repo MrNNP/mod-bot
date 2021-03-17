@@ -4,7 +4,10 @@
   "description": "does something to a person when they mass ping",
   "main": "index.js",
   "scripts": {
-    "test": "node index"
+    "test": "node index",
+    "watch": "tsc index.ts --watch",
+    "build": "tsc index.ts",
+    "run": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +20,8 @@
   "license": "UNLICENCED",
   "dependencies": {
     "discord.js": "^12.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.35"
   }
 }
