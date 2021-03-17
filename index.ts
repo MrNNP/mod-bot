@@ -1,3 +1,4 @@
+import src from './src/src';
 import * as Discord from 'discord.js';
 
 const bot:Discord.Client = new Discord.Client();
