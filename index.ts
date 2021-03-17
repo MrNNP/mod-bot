@@ -7,5 +7,7 @@ bot.once('ready', () => {
     console.log('Online')
 });
 
-
+bot.on('message',msg=>{
+    console.log(src.blanketMod(msg,10));
+});
 bot.login('ODIxMjI2NDYxNzQ1OTA1NzA0.YFAovg.KIbjBDRv7hRrkFGkyxwSNiWYOoQ');

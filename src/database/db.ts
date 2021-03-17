@@ -1,10 +1,10 @@
-import fs from 'fs';
+import {writeFileSync} from 'fs';
 
 let db = require('./db.json');
 
 setInterval(async()=>{
 
- fs.writeFileSync('./db.json',JSON.stringify(db));
+ writeFileSync('./db.json',JSON.stringify(db));
 
 },10000);
 

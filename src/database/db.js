@@ -40,7 +40,7 @@ var fs_1 = require("fs");
 var db = require('./db.json');
 setInterval(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        fs_1["default"].writeFileSync('./db.json', JSON.stringify(db));
+        fs_1.writeFileSync('./db.json', JSON.stringify(db));
         return [2 /*return*/];
     });
 }); }, 10000);
