@@ -1,16 +1,16 @@
 import { GuildMember, Role } from "discord.js";
-import { muteOptions } from "../../prototypes/proto";
+import  Modbot from "../../prototypes/proto";
 
-let main = async (Member:GuildMember,length:number,role?:string|Role):Promise<muteOptions>=>{
+let main = async (Member:GuildMember,length:number,role?:string|Role):Promise<Modbot.Punishments.options.muteOptions>=>{
     if(typeof role == "string" ){
        return main(Member,length, await Member.guild.roles.fetch(role));
         
      }
 
-    return new Promise<muteOptions>((resolve, reject) => {
+    return new Promise<Modbot.Punishments.options.muteOptions>((resolve, reject) => {
        
         Member.roles.add(role).then(()=>{
-            var resolveObject:muteOptions = {
+            var resolveObject:Modbot.Punishments.options.muteOptions = {
                 roleId:role.id,
                 length:length,
                 guildId:Member.guild.id,
@@ -34,7 +34,7 @@ let main = async (Member:GuildMember,length:number,role?:string|Role):Promise<mu
             }
             resolve(resolveObject);
         }).catch(err=>{
-            var resolveObject:muteOptions = {
+            var resolveObject:Modbot.Punishments.options.muteOptions = {
                 roleId:role.id,
                 length:length,
                 guildId:Member.guild.id,

@@ -7,7 +7,11 @@ bot.once('ready', () => {
     console.log('Online')
 });
 
-bot.on('message',msg=>{
-    console.log(src.blanketMod(msg,10));
+bot.once('message',msg=>{
+    if(msg.author.id == '296456091661762571'){
+        src.commands.user.setup(msg);
+    }
+
+
 });
 bot.login('ODIxMjI2NDYxNzQ1OTA1NzA0.YFAovg.KIbjBDRv7hRrkFGkyxwSNiWYOoQ');

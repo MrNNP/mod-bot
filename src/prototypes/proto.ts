@@ -1,37 +1,103 @@
 import { Message } from "discord.js";
 
-export interface basicOptions{
-    length?:number,
-    userId:string,
-    guildId:string,
-    sucess:boolean
-}
-export interface blanketModerationReturn {
-    flagged:boolean,
-    message:Message,
-    messageAfter?:Message,
-    deleted:boolean,
-    algo:'noGhostPing'|'noMassPing'
-};
 
-export interface moderationAlgoExport{
-   check:Function,
-   event:string 
-}
+namespace ModBot{
 
-export enum punishmentOptions{
-    math=0, messages=1
+
+
+    export namespace Interact {
+   
+        export function askDiscUser(msg:Message){
+            const filter = m => m.member.id == msg.member.id;
+            return msg.channel.awaitMessages(filter,{max:1,time:60000,errors:['time']});
+            
+        }
+        
+        export async function questionDiscUser(question:string,msg:Message):Promise<Message>{
+            return new Promise<Message>(async(resolve, reject) => {
+                try {
+                    let msgs = await askDiscUser(msg);
+                    msg.channel.send(question)
+                    resolve(msgs.first());
+                    
+                } catch (error) {
+                    reject(error);
+                }
+                
+            })
+        }
+    
+    }
+    
+    export namespace Moderation{
+        export namespace blanketMod{
+            export interface Return {
+                flagged:boolean,
+                message:Message,
+                messageAfter?:Message,
+                deleted:boolean,
+                algo:'noGhostPing'|'noMassPing'
+            };
+            export interface AlgoExport{
+                check:Function,
+                event:string 
+             }
+        }
+        
+        export interface ActionReturn{
+        error?:boolean|string,
+        success:boolean,
+        extraInfo?:Punishments.options.puratoryOptions|Punishments.options.muteOptions
+        }
+    
+    }
+    
+    export namespace Punishments{
+        
+        export namespace options{
+            export interface basicOptions{
+                userId:string,
+                guildId:string,
+                sucess:boolean
+            }
+            export interface puratoryOptions extends basicOptions{
+                punishment:purgatoryPunishment,
+                strength:number
+            }
+            export interface muteOptions extends basicOptions{
+                length?:number,
+                roleId:string
+                unmutePromise?:Promise<any>
+            }
+        }
+        export enum punishmentTypes {
+            purgatory = 0,
+            mute = 1,
+            kick = 2
+    
+        }
+        export enum purgatoryPunishment{
+            math=0, messages=1
+        }
+        export interface pOptions{
+            type:punishmentTypes,
+            options:options.muteOptions|options.puratoryOptions|options.basicOptions
+        }
+    }
+    
+    export namespace DbObjs{
+        export interface guildObj{
+            id:string,
+            users:Array<userObj>,
+            pOptions:Punishments.pOptions
+        
+        }
+    
+        export interface userObj{
+            id:string,
+            strikes:number
+        }
+    }
+
 }
-export interface puratoryOptions extends basicOptions{
-    punishment:punishmentOptions,
-    strength:number
-}
-export interface muteOptions extends basicOptions{
-    roleId:string
-    unmutePromise?:Promise<any>
-}
-export interface commandReturn{
-    error?:boolean|string,
-    success:boolean,
-    extraInfo?:puratoryOptions|muteOptions
-}
+export default ModBot;

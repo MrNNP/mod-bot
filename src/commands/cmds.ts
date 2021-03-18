@@ -1,9 +1,11 @@
 import kick from './discord/kick';
 import mute from './discord/mute';
-
+import setup from './user/setup';
 const cmds = {
-    kick,
-    mute
+   discord:{kick, mute},
+    user:{
+ setup
+    }
 };
 
 export default cmds;

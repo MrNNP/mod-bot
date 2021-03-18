@@ -1,6 +1,6 @@
 import {Message} from 'discord.js';
-import {blanketModerationReturn} from '../../prototypes/proto';
-const noMassPing = (msg:Message,pingLimit:number):blanketModerationReturn=>{
+import ModBot from '../../prototypes/proto';
+const noMassPing = (msg:Message,pingLimit:number):ModBot.Moderation.blanketMod.Return=>{
     if(msg.mentions.everyone){
         return {
             flagged:true,

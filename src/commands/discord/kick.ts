@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js";
-import { commandReturn } from "../../prototypes/proto";
+import ModBot from "../../prototypes/proto";
 
-export default (user:GuildMember):commandReturn=>{
+export default (user:GuildMember):ModBot.Moderation.ActionReturn=>{
        try{
         user.kick();
        }catch(err){

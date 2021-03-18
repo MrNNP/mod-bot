@@ -1,6 +1,6 @@
 import {Message} from 'discord.js';
-import { blanketModerationReturn } from '../../prototypes/proto';
-const noGhostPingOnEdit = (msgBefore:Message,msgAfter:Message):blanketModerationReturn=>{
+import  ModBot from '../../prototypes/proto';
+const noGhostPingOnEdit = (msgBefore:Message,msgAfter:Message):ModBot.Moderation.blanketMod.Return=>{
     if(
         
        !(msgBefore.mentions.members.equals(msgAfter.mentions.members))
