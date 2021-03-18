@@ -1,9 +1,10 @@
 import { Message } from "discord.js";
 
 export interface basicOptions{
-    length:number,
-    userId:number,
-    guildId:number
+    length?:number,
+    userId:string,
+    guildId:string,
+    sucess:boolean
 }
 export interface blanketModerationReturn {
     flagged:boolean,
@@ -26,7 +27,8 @@ export interface puratoryOptions extends basicOptions{
     strength:number
 }
 export interface muteOptions extends basicOptions{
-    roleId:number
+    roleId:string
+    unmutePromise?:Promise<any>
 }
 export interface commandReturn{
     error?:boolean|string,
