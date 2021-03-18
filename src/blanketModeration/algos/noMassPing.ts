@@ -24,4 +24,4 @@ const noMassPing = (msg:Message,pingLimit:number):blanketModerationReturn=>{
         deleted:false
     };
 }
-export default noMassPing;
+export default {check:noMassPing, event:'message'};

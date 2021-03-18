@@ -24,4 +24,4 @@ var noMassPing = function (msg, pingLimit) {
         deleted: false
     };
 };
-exports["default"] = noMassPing;
+exports["default"] = { check: noMassPing, event: 'message' };

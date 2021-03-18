@@ -25,4 +25,4 @@ const noGhostPingOnEdit = (msgBefore:Message,msgAfter:Message):blanketModeration
         messageAfter:msgAfter
     };
 }
-export default noGhostPingOnEdit;
+export default {noGhostPingOnEdit,event:'messageUpdate'};
