@@ -1,12 +1,23 @@
 import { Message } from "discord.js";
 
-
+const botName = `Saidist`
 namespace ModBot{
 
 
 
     export namespace Interact {
-   
+        export namespace staticMessages{
+           export const onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED'
+           export const setupQuestions:Array<string> = [
+               'Do you want to use progressive punishments?',
+               'What kind of punishments do you want to use?',
+               'What task do you want in purgatory?',
+
+            ]
+           export function setupStartMsg(guildName:string,userName:string,highestRole:string){
+               return `Setting up ${botName} for ${guildName} by ${userName} with highest role of ${highestRole}.`
+           }
+        }
         export function askDiscUser(msg:Message){
             const filter = m => m.member.id == msg.member.id;
             return msg.channel.awaitMessages(filter,{max:1,time:60000,errors:['time']});
@@ -89,7 +100,8 @@ namespace ModBot{
         export interface guildObj{
             id:string,
             users:Array<userObj>,
-            pOptions:Punishments.pOptions
+            pOptions:Punishments.pOptions,
+            strikes:boolean
         
         }
     
