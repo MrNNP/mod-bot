@@ -37,7 +37,27 @@ namespace ModBot{
                 
             })
         }
-    
+        export async function askWhichPunishmentType(msg:Message):Promise<ModBot.Punishments.punishmentTypes>{
+           return new Promise<ModBot.Punishments.punishmentTypes>(async(resolve, reject) => {
+               
+               let res = await (await questionDiscUser(ModBot.Interact.staticMessages.setupQuestions[1],msg)).content.toUpperCase();
+               switch(res){
+                    case 'P':
+                       resolve( ModBot.Punishments.punishmentTypes.purgatory);
+                       break;
+                    case 'K':   
+                        resolve( ModBot.Punishments.punishmentTypes.kick);
+                        break;
+                    case 'M':
+                       resolve( ModBot.Punishments.punishmentTypes.mute);
+                       break;
+                    default:
+                       reject();
+                       break;
+               }
+           });
+        
+        }
     }
     
     export namespace Moderation{
@@ -92,7 +112,7 @@ namespace ModBot{
         }
         export interface pOptions{
             type:punishmentTypes,
-            options:options.muteOptions|options.puratoryOptions|options.basicOptions
+            currentPunishment:Array<options.muteOptions|options.puratoryOptions|options.basicOptions>
         }
     }
     
