@@ -1,51 +1,88 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 exports.__esModule = true;
 var proto_1 = require("../../prototypes/proto");
 exports["default"] = (function (msg) {
-    msg.channel.send("Setting up for server " + msg.guild.name + ", being set up by " + msg.member.displayName + ", with highest role of " + msg.member.roles.highest.name + ".");
-    var guildObj = {};
-    msg.channel.send("**ANSWER ALL QUESTIONS WITH ONLY Y or N UNLESS OTHER OPTIONS ARE GIVEN**");
-    var prevQuestion = function (msg) {
-        msg.channel.send("Do you want to use increasing punishments? This is where punishment lengths increase depending on number of previous infractions");
-        proto_1.askDiscUser(msg).then(function (msgs) {
-            var msg = msgs.first();
-            if (msg.content.toUpperCase() == 'Y') {
-                guildObj.increasingPunishments = true;
-            }
-            else if (msg.content.toUpperCase() == 'N') {
-                guildObj.increasingPunishments = false;
-            }
-            else {
-                msg.channel.send("**ANSWER ALL QUESTIONS WITH ONLY Y or N UNLESS OTHER OPTIONS ARE GIVEN**");
-                prevQuestion(msg);
-                return;
-            }
-            prevQuestion = function (msg) {
-                msg.channel.send("Got " + guildObj.increasingPunishments + " for the last question");
-                msg.channel.send("Next question, what kind of punishments do you want to enable? Your options are purgatory, kick, and mute.\nIn purgatory, you have to complete a task before you are allowed back into the rest of the server\nKick just kicks people\nMute makes it so they cannot speak untill they are unmuted, either manually or after a certain amount of time");
-                msg.channel.send("**ANSWER THIS QUESTION WITH P, K OR M**");
-                proto_1.askDiscUser(msg).then(function (msgs) {
-                    msg = msgs.first();
-                    switch (msg.content.toUpperCase()) {
-                        case 'P':
-                            guildObj.punishmentType = proto_1.punishmentTypes.purgatory;
-                            break;
-                        case 'M':
-                            guildObj.punishmentType = proto_1.punishmentTypes.mute;
-                            break;
-                        case 'K':
-                            guildObj.punishmentType = proto_1.punishmentTypes.kick;
-                            break;
-                        default:
-                            prevQuestion(msg);
-                            return;
-                            break;
+    return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
+        var strikes, ptype, _a, purgtype, pptype;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name));
+                    msg.channel.send(proto_1["default"].Interact.staticMessages.onlyYandN);
+                    return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg)];
+                case 1:
+                    strikes = _b.sent();
+                    return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg)];
+                case 2:
+                    ptype = _b.sent();
+                    _a = ptype.content.toLowerCase();
+                    switch (_a) {
+                        case "p": return [3 /*break*/, 3];
                     }
-                    console.log(guildObj);
-                });
-            };
-            prevQuestion(msg);
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg)];
+                case 4:
+                    purgtype = _b.sent();
+                    pptype = void 0;
+                    if (purgtype.content.toLowerCase() == 'a') {
+                        pptype = proto_1["default"].Punishments.purgatoryPunishment.math;
+                    }
+                    else if (purgtype.content.toLowerCase() == 'b') {
+                        pptype = proto_1["default"].Punishments.purgatoryPunishment.messages;
+                    }
+                    else {
+                        reject('That was not one of the options, try again');
+                        return [2 /*return*/];
+                    }
+                    resolve({
+                        id: msg.guild.id,
+                        users: [],
+                        strikes: strikes.content.toLowerCase() == 'y' ? true : false,
+                        pOptions: {
+                            type: proto_1["default"].Punishments.punishmentTypes.purgatory,
+                            currentPunishments: [],
+                            purgatoryType: pptype
+                        }
+                    });
+                    _b.label = 5;
+                case 5: return [2 /*return*/];
+            }
         });
-    };
-    prevQuestion(msg);
+    }); });
 });
