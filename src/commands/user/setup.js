@@ -39,25 +39,35 @@ exports.__esModule = true;
 var proto_1 = require("../../prototypes/proto");
 exports["default"] = (function (msg) {
     return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
-        var strikes, ptype, _a, purgtype, pptype;
+        var currentQuestion, strikes, ptype, _a, purgtype, pptype;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    currentQuestion = function () { };
                     msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name));
                     msg.channel.send(proto_1["default"].Interact.staticMessages.onlyYandN);
-                    return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg)];
-                case 1:
-                    strikes = _b.sent();
+                    currentQuestion = function () { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg)["catch"](currentQuestion)];
+                                case 1:
+                                    strikes =
+                                        _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); };
+                    currentQuestion();
                     return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg)];
-                case 2:
+                case 1:
                     ptype = _b.sent();
                     _a = ptype.content.toLowerCase();
                     switch (_a) {
-                        case "p": return [3 /*break*/, 3];
+                        case "p": return [3 /*break*/, 2];
                     }
-                    return [3 /*break*/, 5];
-                case 3: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg)];
-                case 4:
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg)];
+                case 3:
                     purgtype = _b.sent();
                     pptype = void 0;
                     if (purgtype.content.toLowerCase() == 'a') {
@@ -80,8 +90,8 @@ exports["default"] = (function (msg) {
                             purgatoryType: pptype
                         }
                     });
-                    _b.label = 5;
-                case 5: return [2 /*return*/];
+                    _b.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     }); });

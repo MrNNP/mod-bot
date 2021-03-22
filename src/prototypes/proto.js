@@ -43,7 +43,7 @@ var ModBot;
     (function (Interact) {
         var staticMessages;
         (function (staticMessages) {
-            staticMessages.onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED';
+            staticMessages.onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED**';
             staticMessages.setupQuestions = [
                 'Do you want to use progressive punishments?',
                 'What kind of punishments do you want to use?',
@@ -68,18 +68,20 @@ var ModBot;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
-                                        _a.trys.push([0, 2, , 3]);
-                                        return [4 /*yield*/, askDiscUser(msg)];
+                                        _a.trys.push([0, 3, , 4]);
+                                        return [4 /*yield*/, msg.channel.send(question)];
                                     case 1:
-                                        msgs = _a.sent();
-                                        msg.channel.send(question);
-                                        resolve(msgs.first());
-                                        return [3 /*break*/, 3];
+                                        _a.sent();
+                                        return [4 /*yield*/, askDiscUser(msg)];
                                     case 2:
+                                        msgs = _a.sent();
+                                        resolve(msgs.first());
+                                        return [3 /*break*/, 4];
+                                    case 3:
                                         error_1 = _a.sent();
                                         reject(error_1);
-                                        return [3 /*break*/, 3];
-                                    case 3: return [2 /*return*/];
+                                        return [3 /*break*/, 4];
+                                    case 4: return [2 /*return*/];
                                 }
                             });
                         }); })];
@@ -87,6 +89,30 @@ var ModBot;
             });
         }
         Interact.questionDiscUser = questionDiscUser;
+        function askDiscUserwOptions(question, msg, options) {
+            var _this = this;
+            return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                var res, _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0: return [4 /*yield*/, questionDiscUser(question, msg)];
+                        case 1:
+                            res = _b.sent();
+                            if (!(options.indexOf(res.content.toLowerCase()) == -1)) return [3 /*break*/, 3];
+                            _a = resolve;
+                            return [4 /*yield*/, askDiscUserwOptions(question, msg, options)];
+                        case 2:
+                            _a.apply(void 0, [_b.sent()]);
+                            return [3 /*break*/, 4];
+                        case 3:
+                            resolve(res.content.toLowerCase());
+                            return [2 /*return*/];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            }); });
+        }
+        Interact.askDiscUserwOptions = askDiscUserwOptions;
     })(Interact = ModBot.Interact || (ModBot.Interact = {}));
     var Moderation;
     (function (Moderation) {

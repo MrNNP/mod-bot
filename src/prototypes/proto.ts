@@ -7,7 +7,7 @@ namespace ModBot{
 
     export namespace Interact {
         export namespace staticMessages{
-           export const onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED'
+           export const onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED**'
            export const setupQuestions:Array<string> = [
                'Do you want to use progressive punishments?',
                'What kind of punishments do you want to use?',
@@ -27,14 +27,27 @@ namespace ModBot{
         export async function questionDiscUser(question:string,msg:Message):Promise<Message>{
             return new Promise<Message>(async(resolve, reject) => {
                 try {
+                    await msg.channel.send(question)
                     let msgs = await askDiscUser(msg);
-                    msg.channel.send(question)
                     resolve(msgs.first());
                     
                 } catch (error) {
                     reject(error);
                 }
                 
+            })
+        }
+        export function askDiscUserwOptions(question:string,msg:Message,options:Array<string>):Promise<string> {
+            return new Promise<string>(async(resolve, reject) => {
+              let res = await questionDiscUser(question,msg);
+              if(options.indexOf(res.content.toLowerCase()) == -1){
+                  resolve(await askDiscUserwOptions(question,msg,options));
+                    //TODO: test it now
+                }else{
+                   resolve(res.content.toLowerCase())
+                   return; 
+                }
+
             })
         }
      
