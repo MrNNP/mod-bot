@@ -57,7 +57,7 @@ var ModBot;
         })(staticMessages = Interact.staticMessages || (Interact.staticMessages = {}));
         function askDiscUser(msg) {
             var filter = function (m) { return m.member.id == msg.member.id; };
-            return msg.channel.awaitMessages(filter, { max: 1, time: 6000, errors: ['time'] });
+            return msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] });
         }
         Interact.askDiscUser = askDiscUser;
         function discordEmbed(title) {

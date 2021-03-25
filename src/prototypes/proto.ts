@@ -20,7 +20,7 @@ namespace ModBot{
         }
         export function askDiscUser(msg:Message){
             const filter = m => m.member.id == msg.member.id;
-            return msg.channel.awaitMessages(filter,{max:1,time:6000,errors:['time']});
+            return msg.channel.awaitMessages(filter,{max:1,time:60000,errors:['time']});
             
         }
         export function discordEmbed(title:string):MessageEmbed{

@@ -5,20 +5,12 @@ import ModBot from "../../prototypes/proto";
 
 export default (msg:Message):Promise<ModBot.DbObjs.guildObj>=>{
   return new Promise<ModBot.DbObjs.guildObj>(async(resolve, reject) => {
-    function errorTimeout (){
-    msg.channel.send(`You ran out of time, or an error occured. Try again.`)
-      reject('Timeout-didnt respond in time');
-      
-    }
   
-    
-    
+    try{
+      msg.channel.send(ModBot.Interact.staticMessages.setupStartMsg(msg.guild.name,msg.member.displayName,msg.member.roles.highest.name));
 
-      msg.channel.send(ModBot.Interact.staticMessages.setupStartMsg(msg.guild.name,msg.member.displayName,msg.member.roles.highest.name)).catch(errorTimeout);
-      
 
-      let response:any = await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[1],msg,[['p','For purgatory, where user has to complete a task before unmute'],['m','For the user to be muted'],['k','For the user to be kicked']]).catch(errorTimeout);
-
+      let response:any = await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[1],msg,[['p','For purgatory, where user has to complete a task before unmute'],['m','For the user to be muted'],['k','For the user to be kicked']]);
       let ppoption:any;
 
       switch(response){
@@ -27,7 +19,7 @@ export default (msg:Message):Promise<ModBot.DbObjs.guildObj>=>{
 
         response = ModBot.Punishments.punishmentTypes.purgatory;
 
-          ppoption = await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[2],msg,[['math','for the purgatory task to be a math problem'],['msgs','for the purgatory task to be a task where a certain number of messages need to be sent']]).catch(errorTimeout);
+          ppoption = await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[2],msg,[['math','for the purgatory task to be a math problem'],['msgs','for the purgatory task to be a task where a certain number of messages need to be sent']]);
 
           if(ppoption == 'math'){
 
@@ -53,7 +45,7 @@ export default (msg:Message):Promise<ModBot.DbObjs.guildObj>=>{
       
         users:[],
       
-        strikes: (await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[0],msg,[['y','yes'],['n','no']]).catch(errorTimeout))=='y'?true:false,
+        strikes: (await ModBot.Interact.askDiscUserwOptions(ModBot.Interact.staticMessages.setupQuestions[0],msg,[['y','yes'],['n','no']]))=='y'?true:false,
       
         pOptions:{
       
@@ -68,7 +60,12 @@ export default (msg:Message):Promise<ModBot.DbObjs.guildObj>=>{
       }
       
       resolve(resObj);
-    
+    }catch(err){
+      await msg.channel.send(ModBot.Interact.discordEmbed(`There was an error, or you ran out of time. Try again.`))
+      reject('Timeout');
+      
+      
+      }
    
 
   })

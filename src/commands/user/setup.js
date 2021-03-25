@@ -39,19 +39,17 @@ exports.__esModule = true;
 var proto_1 = require("../../prototypes/proto");
 exports["default"] = (function (msg) {
     return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
-        function errorTimeout() {
-            msg.channel.send("You ran out of time, or an error occured. Try again.");
-            reject('Timeout-didnt respond in time');
-        }
-        var response, ppoption, _a, resObj;
+        var response, ppoption, _a, resObj, err_1;
         var _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name))["catch"](errorTimeout);
-                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg, [['p', 'For purgatory, where user has to complete a task before unmute'], ['m', 'For the user to be muted'], ['k', 'For the user to be kicked']])["catch"](errorTimeout)];
+                    _c.trys.push([0, 8, , 10]);
+                    msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name));
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg, [['p', 'For purgatory, where user has to complete a task before unmute'], ['m', 'For the user to be muted'], ['k', 'For the user to be kicked']])];
                 case 1:
                     response = _c.sent();
+                    ppoption = void 0;
                     _a = response;
                     switch (_a) {
                         case 'p': return [3 /*break*/, 2];
@@ -61,7 +59,7 @@ exports["default"] = (function (msg) {
                     return [3 /*break*/, 6];
                 case 2:
                     response = proto_1["default"].Punishments.punishmentTypes.purgatory;
-                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg, [['math', 'for the purgatory task to be a math problem'], ['msgs', 'for the purgatory task to be a task where a certain number of messages need to be sent']])["catch"](errorTimeout)];
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg, [['math', 'for the purgatory task to be a math problem'], ['msgs', 'for the purgatory task to be a task where a certain number of messages need to be sent']])];
                 case 3:
                     ppoption = _c.sent();
                     if (ppoption == 'math') {
@@ -81,7 +79,7 @@ exports["default"] = (function (msg) {
                         id: msg.guild.id,
                         users: []
                     };
-                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg, [['y', 'yes'], ['n', 'no']])["catch"](errorTimeout)];
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg, [['y', 'yes'], ['n', 'no']])];
                 case 7:
                     resObj = (_b.strikes = (_c.sent()) == 'y' ? true : false,
                         _b.pOptions = {
@@ -91,7 +89,15 @@ exports["default"] = (function (msg) {
                         },
                         _b);
                     resolve(resObj);
-                    return [2 /*return*/];
+                    return [3 /*break*/, 10];
+                case 8:
+                    err_1 = _c.sent();
+                    return [4 /*yield*/, msg.channel.send(proto_1["default"].Interact.discordEmbed("There was an error, or you ran out of time. Try again."))];
+                case 9:
+                    _c.sent();
+                    reject('Timeout');
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     }); });
