@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var discord_js_1 = require("discord.js");
 var botName = "lol idk";
 var ModBot;
 (function (ModBot) {
@@ -45,9 +46,9 @@ var ModBot;
         (function (staticMessages) {
             staticMessages.onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED**';
             staticMessages.setupQuestions = [
-                'Do you want to use progressive punishments?',
-                'What kind of punishments do you want to use?',
-                'What task do you want in purgatory?',
+                new discord_js_1.MessageEmbed().setTitle('Do you want to use progressive punishments?'),
+                new discord_js_1.MessageEmbed().setTitle('What kind of punishments do you want to use?'),
+                new discord_js_1.MessageEmbed().setTitle('What task do you want in purgatory?'),
             ];
             function setupStartMsg(guildName, userName, highestRole) {
                 return "Setting up " + botName + " for " + guildName + " by " + userName + " with highest role of " + highestRole + ".";
@@ -56,9 +57,15 @@ var ModBot;
         })(staticMessages = Interact.staticMessages || (Interact.staticMessages = {}));
         function askDiscUser(msg) {
             var filter = function (m) { return m.member.id == msg.member.id; };
-            return msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] });
+            return msg.channel.awaitMessages(filter, { max: 1, time: 6000, errors: ['time'] });
         }
         Interact.askDiscUser = askDiscUser;
+        function discordEmbed(title) {
+            var res = new discord_js_1.MessageEmbed;
+            res.setTitle(title);
+            return res;
+        }
+        Interact.discordEmbed = discordEmbed;
         function questionDiscUser(question, msg) {
             return __awaiter(this, void 0, void 0, function () {
                 var _this = this;
@@ -89,25 +96,43 @@ var ModBot;
             });
         }
         Interact.questionDiscUser = questionDiscUser;
-        function askDiscUserwOptions(question, msg, options) {
+        function askDiscUserwOptions(question, msg, options, again) {
             var _this = this;
             return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                var res, _a;
+                var res_1, _a, error_2;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
-                        case 0: return [4 /*yield*/, questionDiscUser(question, msg)];
+                        case 0:
+                            _b.trys.push([0, 5, , 6]);
+                            if (!again) {
+                                question.addField('Your options are:', "there are " + options.length + " options, answer with one of them");
+                                question.setTimestamp();
+                                options.forEach(function (option) { question.addField(option[0], option[1], true); });
+                            }
+                            return [4 /*yield*/, questionDiscUser(question, msg)];
                         case 1:
-                            res = _b.sent();
-                            if (!(options.indexOf(res.content.toLowerCase()) == -1)) return [3 /*break*/, 3];
+                            res_1 = _b.sent();
+                            if (!(options.findIndex(function (index) { return res_1.content.toLowerCase() == index[0]; }) == -1)) return [3 /*break*/, 3];
                             _a = resolve;
-                            return [4 /*yield*/, askDiscUserwOptions(question, msg, options)];
+                            return [4 /*yield*/, askDiscUserwOptions(question, msg, options, true)];
                         case 2:
                             _a.apply(void 0, [_b.sent()]);
                             return [3 /*break*/, 4];
                         case 3:
-                            resolve(res.content.toLowerCase());
+                            resolve(res_1.content.toLowerCase());
                             return [2 /*return*/];
-                        case 4: return [2 /*return*/];
+                        case 4: return [3 /*break*/, 6];
+                        case 5:
+                            error_2 = _b.sent();
+                            try {
+                                reject();
+                            }
+                            catch (erroror) {
+                                console.log(error_2 + '\n\n\n\n\n\n and \n\n\n' + erroror);
+                                reject();
+                            }
+                            return [3 /*break*/, 6];
+                        case 6: return [2 /*return*/];
                     }
                 });
             }); });

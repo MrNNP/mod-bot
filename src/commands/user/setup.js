@@ -39,59 +39,59 @@ exports.__esModule = true;
 var proto_1 = require("../../prototypes/proto");
 exports["default"] = (function (msg) {
     return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
-        var currentQuestion, strikes, ptype, _a, purgtype, pptype;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        function errorTimeout() {
+            msg.channel.send("You ran out of time, or an error occured. Try again.");
+            reject('Timeout-didnt respond in time');
+        }
+        var response, ppoption, _a, resObj;
+        var _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    currentQuestion = function () { };
-                    msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name));
-                    msg.channel.send(proto_1["default"].Interact.staticMessages.onlyYandN);
-                    currentQuestion = function () { return __awaiter(void 0, void 0, void 0, function () {
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg)["catch"](currentQuestion)];
-                                case 1:
-                                    strikes =
-                                        _a.sent();
-                                    return [2 /*return*/];
-                            }
-                        });
-                    }); };
-                    currentQuestion();
-                    return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg)];
+                    msg.channel.send(proto_1["default"].Interact.staticMessages.setupStartMsg(msg.guild.name, msg.member.displayName, msg.member.roles.highest.name))["catch"](errorTimeout);
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[1], msg, [['p', 'For purgatory, where user has to complete a task before unmute'], ['m', 'For the user to be muted'], ['k', 'For the user to be kicked']])["catch"](errorTimeout)];
                 case 1:
-                    ptype = _b.sent();
-                    _a = ptype.content.toLowerCase();
+                    response = _c.sent();
+                    _a = response;
                     switch (_a) {
-                        case "p": return [3 /*break*/, 2];
+                        case 'p': return [3 /*break*/, 2];
+                        case 'm': return [3 /*break*/, 4];
+                        case 'k': return [3 /*break*/, 5];
                     }
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, proto_1["default"].Interact.questionDiscUser(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg)];
+                    return [3 /*break*/, 6];
+                case 2:
+                    response = proto_1["default"].Punishments.punishmentTypes.purgatory;
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[2], msg, [['math', 'for the purgatory task to be a math problem'], ['msgs', 'for the purgatory task to be a task where a certain number of messages need to be sent']])["catch"](errorTimeout)];
                 case 3:
-                    purgtype = _b.sent();
-                    pptype = void 0;
-                    if (purgtype.content.toLowerCase() == 'a') {
-                        pptype = proto_1["default"].Punishments.purgatoryPunishment.math;
+                    ppoption = _c.sent();
+                    if (ppoption == 'math') {
+                        ppoption = proto_1["default"].Punishments.purgatoryPunishment.math;
                     }
-                    else if (purgtype.content.toLowerCase() == 'b') {
-                        pptype = proto_1["default"].Punishments.purgatoryPunishment.messages;
-                    }
-                    else {
-                        reject('That was not one of the options, try again');
-                        return [2 /*return*/];
-                    }
-                    resolve({
+                    else
+                        ppoption = proto_1["default"].Punishments.purgatoryPunishment.messages;
+                    return [3 /*break*/, 6];
+                case 4:
+                    response = proto_1["default"].Punishments.punishmentTypes.mute;
+                    return [3 /*break*/, 6];
+                case 5:
+                    response = proto_1["default"].Punishments.punishmentTypes.kick;
+                    _c.label = 6;
+                case 6:
+                    _b = {
                         id: msg.guild.id,
-                        users: [],
-                        strikes: strikes.content.toLowerCase() == 'y' ? true : false,
-                        pOptions: {
-                            type: proto_1["default"].Punishments.punishmentTypes.purgatory,
-                            currentPunishments: [],
-                            purgatoryType: pptype
-                        }
-                    });
-                    _b.label = 4;
-                case 4: return [2 /*return*/];
+                        users: []
+                    };
+                    return [4 /*yield*/, proto_1["default"].Interact.askDiscUserwOptions(proto_1["default"].Interact.staticMessages.setupQuestions[0], msg, [['y', 'yes'], ['n', 'no']])["catch"](errorTimeout)];
+                case 7:
+                    resObj = (_b.strikes = (_c.sent()) == 'y' ? true : false,
+                        _b.pOptions = {
+                            type: response,
+                            purgatoryType: ppoption,
+                            currentPunishments: []
+                        },
+                        _b);
+                    resolve(resObj);
+                    return [2 /*return*/];
             }
         });
     }); });

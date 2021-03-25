@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 const botName = `lol idk`
 namespace ModBot{
@@ -8,10 +8,10 @@ namespace ModBot{
     export namespace Interact {
         export namespace staticMessages{
            export const onlyYandN = '**ONLY REPLY WITH A Y OR N UNLESS OTHER OPTIONS ARE PROVIDED**'
-           export const setupQuestions:Array<string> = [
-               'Do you want to use progressive punishments?',
-               'What kind of punishments do you want to use?',
-               'What task do you want in purgatory?',
+           export const setupQuestions:Array<MessageEmbed> = [
+               new MessageEmbed().setTitle('Do you want to use progressive punishments?'),
+               new MessageEmbed().setTitle('What kind of punishments do you want to use?'),
+               new MessageEmbed().setTitle('What task do you want in purgatory?'),
 
             ]
            export function setupStartMsg(guildName:string,userName:string,highestRole:string){
@@ -20,11 +20,15 @@ namespace ModBot{
         }
         export function askDiscUser(msg:Message){
             const filter = m => m.member.id == msg.member.id;
-            return msg.channel.awaitMessages(filter,{max:1,time:60000,errors:['time']});
+            return msg.channel.awaitMessages(filter,{max:1,time:6000,errors:['time']});
             
         }
-        
-        export async function questionDiscUser(question:string,msg:Message):Promise<Message>{
+        export function discordEmbed(title:string):MessageEmbed{
+            let res = new MessageEmbed;
+            res.setTitle(title);
+            return res;
+        }
+        export async function questionDiscUser(question:MessageEmbed,msg:Message):Promise<Message>{
             return new Promise<Message>(async(resolve, reject) => {
                 try {
                     await msg.channel.send(question)
@@ -37,20 +41,36 @@ namespace ModBot{
                 
             })
         }
-        export function askDiscUserwOptions(question:string,msg:Message,options:Array<string>):Promise<string> {
+        export function askDiscUserwOptions(question:MessageEmbed,msg:Message,options:Array<Array<string>>,again?:boolean):Promise<string> {
             return new Promise<string>(async(resolve, reject) => {
+                try {
+                
+                if(!again){
+                question.addField('Your options are:',`there are ${options.length} options, answer with one of them`);
+                question.setTimestamp();
+                    options.forEach(option=>{    question.addField(option[0],option[1],true) })
+
+                }
               let res = await questionDiscUser(question,msg);
-              if(options.indexOf(res.content.toLowerCase()) == -1){
-                  resolve(await askDiscUserwOptions(question,msg,options));
-                    //TODO: test it now
+              if(options.findIndex(index => res.content.toLowerCase() == index[0]) == -1){
+                      
+                      resolve(await askDiscUserwOptions(question,msg,options,true));
                 }else{
                    resolve(res.content.toLowerCase())
                    return; 
                 }
+            } catch (error) {
+                try {
+                    reject();
+                } catch (erroror) {
+                    console.log(error+'\n\n\n\n\n\n and \n\n\n'+erroror);
+                    reject();   
+                }
+            }
 
             })
         }
-     
+        
     }
     
     export namespace Moderation{
