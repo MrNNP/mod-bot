@@ -102,7 +102,7 @@ namespace ModBot{
             export interface basicOptions{
                 userId:string,
                 guildId:string,
-                sucess:boolean
+                success:boolean
             }
             export interface puratoryOptions extends basicOptions{
                 punishment:purgatoryPunishment,

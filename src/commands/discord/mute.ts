@@ -14,7 +14,7 @@ let main = async (Member:GuildMember,length:number,role?:string|Role):Promise<Mo
                 roleId:role.id,
                 length:length,
                 guildId:Member.guild.id,
-                sucess:true,
+                success:true,
                 userId:Member.user.id
 
             }
@@ -38,7 +38,7 @@ let main = async (Member:GuildMember,length:number,role?:string|Role):Promise<Mo
                 roleId:role.id,
                 length:length,
                 guildId:Member.guild.id,
-                sucess:false,
+                success:false,
                 userId:Member.user.id,
                 
 

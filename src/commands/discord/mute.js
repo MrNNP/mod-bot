@@ -52,7 +52,7 @@ var main = function (Member, length, role) { return __awaiter(void 0, void 0, vo
                             roleId: role.id,
                             length: length,
                             guildId: Member.guild.id,
-                            sucess: true,
+                            success: true,
                             userId: Member.user.id
                         };
                         if (length == -1) {
@@ -74,7 +74,7 @@ var main = function (Member, length, role) { return __awaiter(void 0, void 0, vo
                             roleId: role.id,
                             length: length,
                             guildId: Member.guild.id,
-                            sucess: false,
+                            success: false,
                             userId: Member.user.id
                         };
                         resolve(resolveObject);

@@ -1,1 +1,13 @@
-{}
+{
+    "guilds":[
+
+        ],
+    "users":[
+
+    ],
+    "settings":{
+        "timeout":60000,
+        "Bot Name":"lol IDK"
+
+    }
+}
