@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { GuildMember, Message, MessageEmbed, RoleManager, TextChannel } from "discord.js";
 
 const botName = `lol idk`
 namespace ModBot{
@@ -127,6 +127,66 @@ namespace ModBot{
             type:punishmentTypes,
             currentPunishments:Array<options.muteOptions|options.puratoryOptions|options.basicOptions>
             purgatoryType?:purgatoryPunishment
+        }
+
+        export function createPurgChannel(msg:Message,user:GuildMember):Promise<TextChannel>{
+           return msg.guild.channels.create(`Purgatory for ${user.user.tag}`,{
+                parent:'PURGATORY',
+                reason:'Purgatory Channel',
+                type:'text',
+                permissionOverwrites:[
+                    {
+                        id:user.id,
+                        allow:["VIEW_CHANNEL","SEND_MESSAGES"]
+                    },
+                    {
+                        id:msg.guild.roles.everyone,
+                        deny:["VIEW_CHANNEL","SEND_MESSAGES"]
+                    }
+                ]
+            });
+        }
+        export function givePurgRole(msg:Message,user:GuildMember):Promise<GuildMember>{
+            return new Promise<GuildMember>(async(resolve, reject) => {
+            try {
+                
+              let roles:RoleManager =  await msg.guild.roles.fetch();
+              let indexOfRole =  roles.cache.array().findIndex(role=>role.name == 'In Purgatory');
+                if(indexOfRole==-1){
+                   let role = await roles.create({
+                        data:{
+                            name:'In Purgatory',
+                            color:"#36393F",
+                            mentionable:false,
+                            permissions:[
+
+                            ]
+                        },
+                        reason:'Purgatory Role'                         
+                    });
+                    await msg.guild.channels.cache.forEach(async channel=>{
+                        await channel.overwritePermissions([
+                            {
+                                id:role.id,
+                                deny:[
+                                    "VIEW_CHANNEL","SEND_MESSAGES"
+                                ]
+                            },
+                            ...channel.permissionOverwrites.array()
+                        ],'Create purgatory role')
+                    })
+                    resolve(await msg.member.roles.add(role));
+
+
+                } else {
+                    resolve(await user.roles.add(roles.cache.array()[indexOfRole]));
+                }
+
+            } catch (error) {
+                reject(error.toString())
+            }
+
+            })
         }
     }
     
