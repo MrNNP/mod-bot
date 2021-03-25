@@ -167,20 +167,32 @@ var ModBot;
             purgatoryPunishment[purgatoryPunishment["messages"] = 1] = "messages";
         })(purgatoryPunishment = Punishments.purgatoryPunishment || (Punishments.purgatoryPunishment = {}));
         function createPurgChannel(msg, user) {
-            return msg.guild.channels.create("Purgatory for " + user.user.tag, {
-                parent: 'PURGATORY',
-                reason: 'Purgatory Channel',
-                type: 'text',
-                permissionOverwrites: [
-                    {
-                        id: user.id,
-                        allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
-                    },
-                    {
-                        id: msg.guild.roles.everyone,
-                        deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+            return __awaiter(this, void 0, void 0, function () {
+                var _a, _b, _c;
+                var _d;
+                return __generator(this, function (_e) {
+                    switch (_e.label) {
+                        case 0:
+                            _b = (_a = msg.guild.channels).create;
+                            _c = ["Purgatory for " + user.user.tag];
+                            _d = {};
+                            return [4 /*yield*/, getParent(msg.guild.channels)];
+                        case 1: return [2 /*return*/, _b.apply(_a, _c.concat([(_d.parent = _e.sent(),
+                                    _d.reason = 'Purgatory Channel',
+                                    _d.type = 'text',
+                                    _d.permissionOverwrites = [
+                                        {
+                                            id: user.id,
+                                            allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                                        },
+                                        {
+                                            id: msg.guild.roles.everyone,
+                                            deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                                        }
+                                    ],
+                                    _d)]))];
                     }
-                ]
+                });
             });
         }
         Punishments.createPurgChannel = createPurgChannel;
@@ -192,12 +204,12 @@ var ModBot;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
                         case 0:
-                            _c.trys.push([0, 8, , 9]);
+                            _c.trys.push([0, 7, , 8]);
                             return [4 /*yield*/, msg.guild.roles.fetch()];
                         case 1:
                             roles = _c.sent();
                             indexOfRole = roles.cache.array().findIndex(function (role) { return role.name == 'In Purgatory'; });
-                            if (!(indexOfRole == -1)) return [3 /*break*/, 5];
+                            if (!(indexOfRole == -1)) return [3 /*break*/, 4];
                             return [4 /*yield*/, roles.create({
                                     data: {
                                         name: 'In Purgatory',
@@ -209,47 +221,62 @@ var ModBot;
                                 })];
                         case 2:
                             role_1 = _c.sent();
-                            return [4 /*yield*/, msg.guild.channels.cache.forEach(function (channel) { return __awaiter(_this, void 0, void 0, function () {
-                                    return __generator(this, function (_a) {
-                                        switch (_a.label) {
-                                            case 0: return [4 /*yield*/, channel.overwritePermissions(__spreadArrays([
-                                                    {
-                                                        id: role_1.id,
-                                                        deny: [
-                                                            "VIEW_CHANNEL", "SEND_MESSAGES"
-                                                        ]
-                                                    }
-                                                ], channel.permissionOverwrites.array()), 'Create purgatory role')];
-                                            case 1:
-                                                _a.sent();
-                                                return [2 /*return*/];
-                                        }
-                                    });
-                                }); })];
-                        case 3:
-                            _c.sent();
+                            msg.guild.channels.cache.forEach(function (channel) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, channel.overwritePermissions(__spreadArrays([
+                                                {
+                                                    id: role_1.id,
+                                                    deny: [
+                                                        "VIEW_CHANNEL", "SEND_MESSAGES"
+                                                    ]
+                                                }
+                                            ], channel.permissionOverwrites.array()), 'Create purgatory role')];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); });
                             _a = resolve;
                             return [4 /*yield*/, msg.member.roles.add(role_1)];
-                        case 4:
+                        case 3:
                             _a.apply(void 0, [_c.sent()]);
-                            return [3 /*break*/, 7];
-                        case 5:
+                            return [3 /*break*/, 6];
+                        case 4:
                             _b = resolve;
                             return [4 /*yield*/, user.roles.add(roles.cache.array()[indexOfRole])];
-                        case 6:
+                        case 5:
                             _b.apply(void 0, [_c.sent()]);
-                            _c.label = 7;
-                        case 7: return [3 /*break*/, 9];
-                        case 8:
+                            _c.label = 6;
+                        case 6: return [3 /*break*/, 8];
+                        case 7:
                             error_3 = _c.sent();
                             reject(error_3.toString());
-                            return [3 /*break*/, 9];
-                        case 9: return [2 /*return*/];
+                            return [3 /*break*/, 8];
+                        case 8: return [2 /*return*/];
                     }
                 });
             }); });
         }
         Punishments.givePurgRole = givePurgRole;
+        function getParent(channels) {
+            return __awaiter(this, void 0, void 0, function () {
+                var indexofParent;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            indexofParent = channels.cache.array().findIndex(function (channel) { return channel.name == 'PURGATORY'; });
+                            if (!(indexofParent == -1)) return [3 /*break*/, 2];
+                            return [4 /*yield*/, channels.create('PURGATORY', { type: 'category' })];
+                        case 1: return [2 /*return*/, _a.sent()];
+                        case 2: 
+                        //@ts-ignore
+                        return [2 /*return*/, channels.cache.array()[indexofParent]];
+                    }
+                });
+            });
+        }
     })(Punishments = ModBot.Punishments || (ModBot.Punishments = {}));
 })(ModBot || (ModBot = {}));
 exports["default"] = ModBot;

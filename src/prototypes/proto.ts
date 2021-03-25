@@ -1,4 +1,4 @@
-import { GuildMember, Message, MessageEmbed, RoleManager, TextChannel } from "discord.js";
+import { CategoryChannel, GuildChannelManager, GuildMember, Message, MessageEmbed, RoleManager, TextChannel } from "discord.js";
 
 const botName = `lol idk`
 namespace ModBot{
@@ -129,9 +129,10 @@ namespace ModBot{
             purgatoryType?:purgatoryPunishment
         }
 
-        export function createPurgChannel(msg:Message,user:GuildMember):Promise<TextChannel>{
-           return msg.guild.channels.create(`Purgatory for ${user.user.tag}`,{
-                parent:'PURGATORY',
+        export async function createPurgChannel(msg:Message,user:GuildMember):Promise<TextChannel>{
+           
+            return msg.guild.channels.create(`Purgatory for ${user.user.tag}`,{
+                parent: await getParent(msg.guild.channels),
                 reason:'Purgatory Channel',
                 type:'text',
                 permissionOverwrites:[
@@ -164,17 +165,19 @@ namespace ModBot{
                         },
                         reason:'Purgatory Role'                         
                     });
-                    await msg.guild.channels.cache.forEach(async channel=>{
+                    msg.guild.channels.cache.forEach(async (channel) => {
                         await channel.overwritePermissions([
                             {
-                                id:role.id,
-                                deny:[
-                                    "VIEW_CHANNEL","SEND_MESSAGES"
+                                id: role.id,
+                                deny: [
+                                    "VIEW_CHANNEL", "SEND_MESSAGES"
                                 ]
                             },
                             ...channel.permissionOverwrites.array()
-                        ],'Create purgatory role')
+                        ], 'Create purgatory role');
                     })
+
+
                     resolve(await msg.member.roles.add(role));
 
 
@@ -187,6 +190,15 @@ namespace ModBot{
             }
 
             })
+        }
+        async function getParent(channels:GuildChannelManager):Promise<CategoryChannel>{
+            let indexofParent = channels.cache.array().findIndex(channel=>channel.name == 'PURGATORY');
+            if(indexofParent == -1){
+                return await channels.create('PURGATORY',{type:'category'})
+            }else{
+                //@ts-ignore
+            return channels.cache.array()[indexofParent];
+            }
         }
     }
     

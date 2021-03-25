@@ -1,3 +1,5 @@
+
+/*
 import {Client} from '@replit/database';
 class database{
      dbClient:Client;
@@ -24,3 +26,4 @@ class database{
 
 export default new database;
  
+*/

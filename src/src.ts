@@ -1,8 +1,8 @@
-import db from './database/db';
+//import db from './database/db';
 import commands from './commands/cmds';
 import blanketMod from './blanketModeration/blanketMod';
 const handler = {
-    db,
+   // db,
     commands,
     blanketMod
 };

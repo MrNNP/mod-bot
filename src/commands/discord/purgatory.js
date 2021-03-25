@@ -36,43 +36,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var src_1 = require("./src/src");
-var Discord = require("discord.js");
-var prefix = '$';
-var bot = new Discord.Client();
-bot.once('ready', function () {
-    console.log('Online');
-});
-var testuser = {
-    id: '489542372787486731',
-    strikes: 0
-};
-bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, function () {
-    var args, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                if (!msg.content.startsWith(prefix)) return [3 /*break*/, 4];
-                args = msg.content.substring(prefix.length).split(' ');
-                _a = args[0];
-                switch (_a) {
-                    case 'setup': return [3 /*break*/, 1];
-                    case 'convict': return [3 /*break*/, 2];
-                }
-                return [3 /*break*/, 4];
-            case 1: 
-            //    await src.commands.user.setup(msg).then(guildObj => src.db.setDBitem(guildObj.id,guildObj));
-            //  msg.channel.send('Setup successful. You can now start to use the bot.');
-            return [3 /*break*/, 4];
-            case 2:
-                testuser.id = msg.mentions.members.first().id;
-                return [4 /*yield*/, src_1["default"].commands.discord.purgatory(msg, testuser)["catch"](function (err) { return console.error(err); })];
-            case 3:
-                _b.sent();
-                msg.channel.send('so did it work?');
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+var proto_1 = require("../../prototypes/proto");
+function banish(msg, user) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                    var dUser, purgChannel, error_1;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 5, , 6]);
+                                return [4 /*yield*/, msg.guild.members.fetch(user.id)];
+                            case 1:
+                                dUser = _a.sent();
+                                return [4 /*yield*/, proto_1["default"].Punishments.givePurgRole(msg, dUser)];
+                            case 2:
+                                _a.sent();
+                                return [4 /*yield*/, proto_1["default"].Punishments.createPurgChannel(msg, dUser)];
+                            case 3:
+                                purgChannel = _a.sent();
+                                purgChannel.send(proto_1["default"].Interact.discordEmbed('Welcome to purgatory.'));
+                                console.log(purgChannel.type);
+                                return [4 /*yield*/, msg.member.setNickname('In PURGATORY', 'broke the rules')];
+                            case 4:
+                                _a.sent();
+                                return [3 /*break*/, 6];
+                            case 5:
+                                error_1 = _a.sent();
+                                reject(error_1.toString());
+                                return [3 /*break*/, 6];
+                            case 6: return [2 /*return*/];
+                        }
+                    });
+                }); })];
+        });
     });
-}); });
-bot.login('ODIxMjI2NDYxNzQ1OTA1NzA0.YFAovg.KIbjBDRv7hRrkFGkyxwSNiWYOoQ');
+}
+exports["default"] = banish;
