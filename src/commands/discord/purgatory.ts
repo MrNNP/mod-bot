@@ -10,12 +10,14 @@ return new Promise<ModBot.Punishments.options.puratoryOptions>(async(resolve, re
     let dUser = await msg.guild.members.fetch(user.id);
     await ModBot.Punishments.givePurgRole(msg,dUser);
     
+        
+
     let purgChannel:TextChannel = await ModBot.Punishments.createPurgChannel(msg,dUser);
  
     
-    purgChannel.send(ModBot.Interact.discordEmbed('Welcome to purgatory.'));
+    purgChannel.send(ModBot.Interact.discordEmbed(`Welcome to purgatory, ${dUser}`));
     console.log(purgChannel.type);
-    await msg.member.setNickname('In PURGATORY','broke the rules');
+  ///  await msg.member.setNickname('In PURGATORY','broke the rules');
         
     } catch (error) {
         reject(error.toString())

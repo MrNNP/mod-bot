@@ -130,22 +130,35 @@ namespace ModBot{
         }
 
         export async function createPurgChannel(msg:Message,user:GuildMember):Promise<TextChannel>{
-           
-            return msg.guild.channels.create(`Purgatory for ${user.user.tag}`,{
-                parent: await getParent(msg.guild.channels),
-                reason:'Purgatory Channel',
-                type:'text',
-                permissionOverwrites:[
-                    {
-                        id:user.id,
-                        allow:["VIEW_CHANNEL","SEND_MESSAGES"]
-                    },
-                    {
-                        id:msg.guild.roles.everyone,
-                        deny:["VIEW_CHANNEL","SEND_MESSAGES"]
-                    }
+            let parent = await getParent(msg.guild.channels);
+            if(parent.children.array().length>=40){
+                //@ts-expect-error
+                return parent.children.first;
+              }
+            let chanName = `purgatory-for-${user.user.discriminator}`;
+           let indexOfChannel = parent.children.array().findIndex(channel=>channel.name == chanName);
+           console.log(indexOfChannel);
+         
+           if(indexOfChannel==-1){
+               return msg.guild.channels.create(chanName,{
+                    parent: parent,
+                    reason:'Purgatory Channel',
+                    type:'text',
+                    permissionOverwrites:[
+                        {
+                            id:user.id,
+                            allow:["VIEW_CHANNEL","SEND_MESSAGES"]
+                        },
+                        {
+                            id:msg.guild.roles.everyone,
+                         deny:["VIEW_CHANNEL","SEND_MESSAGES"]
+                     }
                 ]
-            });
+                });
+            }else{
+                //@ts-expect-error
+                return parent.children.array()[indexOfChannel];
+            }
         }
         export function givePurgRole(msg:Message,user:GuildMember):Promise<GuildMember>{
             return new Promise<GuildMember>(async(resolve, reject) => {

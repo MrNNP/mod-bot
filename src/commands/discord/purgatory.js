@@ -46,7 +46,7 @@ function banish(msg, user) {
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                _a.trys.push([0, 5, , 6]);
+                                _a.trys.push([0, 4, , 5]);
                                 return [4 /*yield*/, msg.guild.members.fetch(user.id)];
                             case 1:
                                 dUser = _a.sent();
@@ -56,17 +56,14 @@ function banish(msg, user) {
                                 return [4 /*yield*/, proto_1["default"].Punishments.createPurgChannel(msg, dUser)];
                             case 3:
                                 purgChannel = _a.sent();
-                                purgChannel.send(proto_1["default"].Interact.discordEmbed('Welcome to purgatory.'));
+                                purgChannel.send(proto_1["default"].Interact.discordEmbed("Welcome to purgatory, " + dUser));
                                 console.log(purgChannel.type);
-                                return [4 /*yield*/, msg.member.setNickname('In PURGATORY', 'broke the rules')];
+                                return [3 /*break*/, 5];
                             case 4:
-                                _a.sent();
-                                return [3 /*break*/, 6];
-                            case 5:
                                 error_1 = _a.sent();
                                 reject(error_1.toString());
-                                return [3 /*break*/, 6];
-                            case 6: return [2 /*return*/];
+                                return [3 /*break*/, 5];
+                            case 5: return [2 /*return*/];
                         }
                     });
                 }); })];

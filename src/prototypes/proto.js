@@ -168,29 +168,41 @@ var ModBot;
         })(purgatoryPunishment = Punishments.purgatoryPunishment || (Punishments.purgatoryPunishment = {}));
         function createPurgChannel(msg, user) {
             return __awaiter(this, void 0, void 0, function () {
-                var _a, _b, _c;
-                var _d;
-                return __generator(this, function (_e) {
-                    switch (_e.label) {
-                        case 0:
-                            _b = (_a = msg.guild.channels).create;
-                            _c = ["Purgatory for " + user.user.tag];
-                            _d = {};
-                            return [4 /*yield*/, getParent(msg.guild.channels)];
-                        case 1: return [2 /*return*/, _b.apply(_a, _c.concat([(_d.parent = _e.sent(),
-                                    _d.reason = 'Purgatory Channel',
-                                    _d.type = 'text',
-                                    _d.permissionOverwrites = [
-                                        {
-                                            id: user.id,
-                                            allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
-                                        },
-                                        {
-                                            id: msg.guild.roles.everyone,
-                                            deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
-                                        }
-                                    ],
-                                    _d)]))];
+                var parent, chanName, indexOfChannel;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, getParent(msg.guild.channels)];
+                        case 1:
+                            parent = _a.sent();
+                            if (parent.children.array().length >= 40) {
+                                //@ts-expect-error
+                                return [2 /*return*/, parent.children.first];
+                            }
+                            chanName = "purgatory-for-" + user.user.discriminator;
+                            indexOfChannel = parent.children.array().findIndex(function (channel) { return channel.name == chanName; });
+                            console.log(indexOfChannel);
+                            if (indexOfChannel == -1) {
+                                return [2 /*return*/, msg.guild.channels.create(chanName, {
+                                        parent: parent,
+                                        reason: 'Purgatory Channel',
+                                        type: 'text',
+                                        permissionOverwrites: [
+                                            {
+                                                id: user.id,
+                                                allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                                            },
+                                            {
+                                                id: msg.guild.roles.everyone,
+                                                deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                                            }
+                                        ]
+                                    })];
+                            }
+                            else {
+                                //@ts-expect-error
+                                return [2 /*return*/, parent.children.array()[indexOfChannel]];
+                            }
+                            return [2 /*return*/];
                     }
                 });
             });
