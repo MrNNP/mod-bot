@@ -1,29 +1,30 @@
+import * as fs from 'fs';
+import ModBot from '../prototypes/proto';
 
-/*
-import {Client} from '@replit/database';
-class database{
-     dbClient:Client;
-    constructor(){
-        this.dbClient = new Client(); 
-        
-    }
-    getDBitem(id:string):any{
-        return this.dbClient.get(id);
-    }
-    setDBitem(id:string,value:any):any{
-        try {
-            this.dbClient.set(id,value);
-            return value;
-        } catch (error) {
-            console.log(error);
-            return value;
-        }
-    }
+let db = {
+  raw:require('./db.json'),
+  getMemberIndex:(id:string)=>{
+      return db.raw.users.findIndex(user=>user.id == id);  
+  },
+  getGuildIndex:(id:string)=>{
+    return db.raw.guilds.findIndex(guild=>guild.id == id)
+  }
+
+};
+
+setInterval(async()=>{
+
+ fs.writeFileSync('./db.json',JSON.stringify(db));
+
+},10000);
+
+
+
+
+
+
+global.db = db;
+
+declare global{
+  var db:ModBot.DbObjs.db
 }
-
-
-
-
-export default new database;
- 
-*/

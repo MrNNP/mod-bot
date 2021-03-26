@@ -1,4 +1,4 @@
-import { CategoryChannel, GuildChannelManager, GuildMember, Message, MessageEmbed, RoleManager, TextChannel } from "discord.js";
+import { MessageEmbed, Message, GuildMember, TextChannel, RoleManager, GuildChannelManager, CategoryChannel } from "discord.js";
 
 const botName = `lol idk`
 namespace ModBot{
@@ -213,9 +213,24 @@ namespace ModBot{
             return channels.cache.array()[indexofParent];
             }
         }
-    }
+
+        export function addStrike(userId:string,msg:Message):Promise<ModBot.DbObjs.userObj>{
+           return new Promise<ModBot.DbObjs.userObj>(async(resolve, reject) => {
+               
+               let index = db.getMemberIndex(userId)
+               if(index==-1){
+                   let Duser = await msg.guild.members.fetch(userId);
+                   db.raw.users.push({
+                       id:Duser.id,
+                       strikes:1
+                    });
+                }
+            })
+            }
+        }
     
     export namespace DbObjs{
+
         export interface guildObj{
             id:string,
             users:Array<userObj>,
@@ -227,6 +242,16 @@ namespace ModBot{
         export interface userObj{
             id:string,
             strikes:number
+        }
+        export interface rawdb{
+            
+            guild:Array<guildObj>,
+            users:Array<userObj>
+        }
+        export interface db{
+            raw:rawdb,
+            getMemberIndex:(id:string)=>number,
+            getGuildIndex:(id:string)=>number
         }
     }
 

@@ -52,26 +52,31 @@ bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, func
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                if (!msg.content.startsWith(prefix)) return [3 /*break*/, 4];
+                if (!msg.content.startsWith(prefix)) return [3 /*break*/, 5];
                 args = msg.content.substring(prefix.length).split(' ');
+                if (args[0] != 'setup' && (db.getGuildIndex(msg.guild.id) == -1)) {
+                    msg.reply('You need to setup up the bot first');
+                    return [2 /*return*/];
+                }
                 _a = args[0];
                 switch (_a) {
                     case 'setup': return [3 /*break*/, 1];
-                    case 'convict': return [3 /*break*/, 2];
+                    case 'convict': return [3 /*break*/, 3];
                 }
-                return [3 /*break*/, 4];
-            case 1: 
-            //    await src.commands.user.setup(msg).then(guildObj => src.db.setDBitem(guildObj.id,guildObj));
-            //  msg.channel.send('Setup successful. You can now start to use the bot.');
-            return [3 /*break*/, 4];
+                return [3 /*break*/, 5];
+            case 1: return [4 /*yield*/, src_1["default"].commands.user.setup(msg).then(function (guildObj) { return db.raw.guild.push(guildObj); })];
             case 2:
+                _b.sent();
+                msg.channel.send('Setup successful. You can now start to use the bot.');
+                return [3 /*break*/, 5];
+            case 3:
                 testuser.id = msg.mentions.members.first().id;
                 return [4 /*yield*/, src_1["default"].commands.discord.purgatory(msg, testuser)["catch"](function (err) { return console.error(err); })];
-            case 3:
+            case 4:
                 _b.sent();
                 msg.channel.send('so did it work?');
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

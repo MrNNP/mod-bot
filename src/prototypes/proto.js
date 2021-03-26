@@ -289,6 +289,29 @@ var ModBot;
                 });
             });
         }
+        function addStrike(userId, msg) {
+            var _this = this;
+            return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                var index, Duser;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            index = db.getMemberIndex(userId);
+                            if (!(index == -1)) return [3 /*break*/, 2];
+                            return [4 /*yield*/, msg.guild.members.fetch(userId)];
+                        case 1:
+                            Duser = _a.sent();
+                            db.raw.users.push({
+                                id: Duser.id,
+                                strikes: 1
+                            });
+                            _a.label = 2;
+                        case 2: return [2 /*return*/];
+                    }
+                });
+            }); });
+        }
+        Punishments.addStrike = addStrike;
     })(Punishments = ModBot.Punishments || (ModBot.Punishments = {}));
 })(ModBot || (ModBot = {}));
 exports["default"] = ModBot;

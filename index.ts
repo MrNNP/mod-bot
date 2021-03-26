@@ -4,6 +4,8 @@ import ModBot from './src/prototypes/proto';
 const prefix = '$';
 const bot:Discord.Client = new Discord.Client();
 
+
+
 bot.once('ready', () => {
     console.log('Online')
 });
@@ -17,10 +19,14 @@ let testuser:ModBot.DbObjs.userObj = {
 bot.on('message',async msg=>{
     if(msg.content.startsWith(prefix)){
     let args:Array<string> = msg.content.substring(prefix.length).split(' ');
+    if(args[0]!='setup'&&(db.getGuildIndex(msg.guild.id)==-1)){
+        msg.reply('You need to setup up the bot first');
+        return;
+    }
     switch(args[0]){
         case 'setup': 
-        //    await src.commands.user.setup(msg).then(guildObj => src.db.setDBitem(guildObj.id,guildObj));
-          //  msg.channel.send('Setup successful. You can now start to use the bot.');
+            await src.commands.user.setup(msg).then(guildObj => db.raw.guild.push(guildObj));
+           msg.channel.send('Setup successful. You can now start to use the bot.');
         break;
         case 'convict':
         testuser.id = msg.mentions.members.first().id;
@@ -29,5 +35,6 @@ bot.on('message',async msg=>{
         break;    
         }
     }
+    
 });
 bot.login('ODIxMjI2NDYxNzQ1OTA1NzA0.YFAovg.KIbjBDRv7hRrkFGkyxwSNiWYOoQ'); 

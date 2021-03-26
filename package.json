@@ -8,7 +8,7 @@
     "watch": "tsc index.ts --watch",
     "build": "tsc index.ts",
     "run": "node index.js",
-    "nodemon": "nodemon node"
+    "nodemon": "nodemon -e.js"
   },
   "repository": {
     "type": "git",
