@@ -56,7 +56,7 @@ function banish(msg, user) {
                                 return [4 /*yield*/, proto_1["default"].Punishments.createPurgChannel(msg, dUser)];
                             case 3:
                                 purgChannel = _a.sent();
-                                purgChannel.send(proto_1["default"].Interact.discordEmbed("Welcome to purgatory, " + dUser));
+                                purgChannel.send(proto_1["default"].Interact.discordEmbed("Welcome to purgatory, " + dUser.displayName));
                                 console.log(purgChannel.type);
                                 return [3 /*break*/, 5];
                             case 4:

@@ -15,7 +15,7 @@ return new Promise<ModBot.Punishments.options.puratoryOptions>(async(resolve, re
     let purgChannel:TextChannel = await ModBot.Punishments.createPurgChannel(msg,dUser);
  
     
-    purgChannel.send(ModBot.Interact.discordEmbed(`Welcome to purgatory, ${dUser}`));
+    purgChannel.send(ModBot.Interact.discordEmbed(`Welcome to purgatory, ${dUser.displayName}`));
     console.log(purgChannel.type);
   ///  await msg.member.setNickname('In PURGATORY','broke the rules');
         

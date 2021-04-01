@@ -48,10 +48,11 @@ var testuser = {
     strikes: 0
 };
 bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, function () {
-    var args, _a;
+    var args, _a, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 6, , 7]);
                 if (!msg.content.startsWith(prefix)) return [3 /*break*/, 5];
                 args = msg.content.substring(prefix.length).split(' ');
                 if (args[0] != 'setup' && (db.getGuildIndex(msg.guild.id) == -1)) {
@@ -64,7 +65,7 @@ bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, func
                     case 'convict': return [3 /*break*/, 3];
                 }
                 return [3 /*break*/, 5];
-            case 1: return [4 /*yield*/, src_1["default"].commands.user.setup(msg).then(function (guildObj) { return db.raw.guild.push(guildObj); })];
+            case 1: return [4 /*yield*/, src_1["default"].commands.user.setup(msg).then(function (guildObj) { return db.raw.guilds.push(guildObj); })];
             case 2:
                 _b.sent();
                 msg.channel.send('Setup successful. You can now start to use the bot.');
@@ -76,7 +77,13 @@ bot.on('message', function (msg) { return __awaiter(void 0, void 0, void 0, func
                 _b.sent();
                 msg.channel.send('so did it work?');
                 return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                error_1 = _b.sent();
+                msg.channel.send("An error occured, try again. Run $help if you keep getting errors")["catch"](console.error);
+                console.error(error_1);
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); });

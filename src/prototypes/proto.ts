@@ -245,7 +245,7 @@ namespace ModBot{
         }
         export interface rawdb{
             
-            guild:Array<guildObj>,
+            guilds:Array<guildObj>,
             users:Array<userObj>
         }
         export interface db{

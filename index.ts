@@ -14,9 +14,11 @@ let testuser:ModBot.DbObjs.userObj = {
     id:'489542372787486731',
     strikes:0
 };
-
+ 
 
 bot.on('message',async msg=>{
+    
+    try {
     if(msg.content.startsWith(prefix)){
     let args:Array<string> = msg.content.substring(prefix.length).split(' ');
     if(args[0]!='setup'&&(db.getGuildIndex(msg.guild.id)==-1)){
@@ -25,7 +27,7 @@ bot.on('message',async msg=>{
     }
     switch(args[0]){
         case 'setup': 
-            await src.commands.user.setup(msg).then(guildObj => db.raw.guild.push(guildObj));
+            await src.commands.user.setup(msg).then(guildObj => db.raw.guilds.push(guildObj));
            msg.channel.send('Setup successful. You can now start to use the bot.');
         break;
         case 'convict':
@@ -34,6 +36,11 @@ bot.on('message',async msg=>{
            msg.channel.send('so did it work?')
         break;    
         }
+    }
+        
+    } catch (error) {
+        msg.channel.send(`An error occured, try again. Run $help if you keep getting errors`).catch(console.error);
+        console.error(error);
     }
     
 });

@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var fs = require("fs");
 var db = {
-    raw: require('./db.json'),
+    raw: require('../../db.json'),
     getMemberIndex: function (id) {
         return db.raw.users.findIndex(function (user) { return user.id == id; });
     },
@@ -48,7 +48,7 @@ var db = {
 };
 setInterval(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        fs.writeFileSync('./db.json', JSON.stringify(db));
+        fs.writeFileSync('./db.json', JSON.stringify(db.raw));
         return [2 /*return*/];
     });
 }); }, 10000);

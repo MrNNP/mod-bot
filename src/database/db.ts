@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import ModBot from '../prototypes/proto';
 
 let db = {
-  raw:require('./db.json'),
+  raw:require('../../db.json'),
   getMemberIndex:(id:string)=>{
       return db.raw.users.findIndex(user=>user.id == id);  
   },
@@ -14,15 +14,14 @@ let db = {
 
 setInterval(async()=>{
 
- fs.writeFileSync('./db.json',JSON.stringify(db));
+ fs.writeFileSync('./db.json',JSON.stringify(db.raw));
 
 },10000);
+  
 
 
 
-
-
-
+ 
 global.db = db;
 
 declare global{
